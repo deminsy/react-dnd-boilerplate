@@ -8,81 +8,87 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 // -----
-import { DropTarget } from 'react-dnd'
-import ItemTypes from 'utils/itemTypes'
-import DraggableBox from 'components/DraggableBox'
-//import snapToGrid from './snapToGrid'
+import { DropTarget } from 'react-dnd';
+import ItemTypes from 'utils/itemTypes';
+import DraggableBox from 'components/DraggableBox';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
+import { logBoxData } from './actions';
+
 import makeSelectContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-
 const update = require('immutability-helper');
 const styles = {
-  width: 600,
+  // width: '100%',
   height: 300,
   border: '1px solid black',
   position: 'relative',
 };
 
-
 /* eslint-disable react/prefer-stateless-function */
 export class Container extends React.PureComponent {
   constructor() {
     super(...arguments);
-    this.state = {
-      boxes: {
-        a: { top: 20, left: 80, title: 'Drag me around', color: '#aa0000' },
-        b: { top: 180, left: 20, title: 'Drag me too', color: '#00aa00' }
-      },
-    }
+    // this.state = {
+    //   drugging: false,
+    //   boxes: {
+    //     a: { top: 20, left: 80, title: 'Drag me around', color: '#aa0000' },
+    //     b: { top: 180, left: 20, title: 'Drag me too', color: '#00aa00' },
+    //     c: { top: 100, left: 220, title: 'Drag me too', color: '#0000aa' },
+    //   },
+    // };
   }
 
-    render() {
+  render() {
     const { connectDropTarget } = this.props;
-    const { boxes } = this.state;
+    const { boxes } = this.props.container;
     return connectDropTarget(
       <div style={styles}>
         {Object.keys(boxes).map(key => this.renderBox(boxes[key], key))}
       </div>,
-    )
+    );
   }
+
   moveBox(id, left, top) {
-
-
-    this.setState(
-      update(this.state, {
-        boxes: {
-          [id]: {
-            $merge: { left, top },
-          },
-        },
-      }),
-    )
+    //console.log(id, left, top);
+    this.props.logBoxData({id, left, top});
+    // this.setState(
+    //   update(this.state, {
+    //     boxes: {
+    //       [id]: {
+    //         $merge: { left, top },
+    //       },
+    //     },
+    //   }),
+    // );
   }
+
   renderBox(item, key) {
-    return <DraggableBox key={key} id={key} {...item} />
+    return <DraggableBox key={key} id={key} {...item} />;
   }
 }
 
 Container.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  logBoxData: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   container: makeSelectContainer(),
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      logBoxData,
+    },
     dispatch,
-  };
-}
+  );
 
 const withConnect = connect(
   mapStateToProps,
@@ -105,18 +111,18 @@ export default compose(
         }
         const delta = monitor.getDifferenceFromInitialOffset();
         const item = monitor.getItem();
-        let left = Math.round(item.left + delta.x);
-        let top = Math.round(item.top + delta.y);
+        const left = Math.round(item.left + delta.x);
+        const top = Math.round(item.top + delta.y);
         if (props.snapToGrid) {
-         // [left, top] = snapToGrid(left, top);
+          // [left, top] = snapToGrid(left, top);
         }
-        component.moveBox(item.id, left, top)
+        component.moveBox(item.id, left, top);
       },
     },
     connect => ({
       connectDropTarget: connect.dropTarget(),
     }),
-  )
+  ),
 )(Container);
 
 // export default DropTarget(
@@ -140,4 +146,3 @@ export default compose(
 //     connectDropTarget: connect.dropTarget(),
 //   }),
 // )(Container)
-
