@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const styles = {
+  color: 'white',
   height: 100,
   width: 100,
   border: '1px dashed gray',

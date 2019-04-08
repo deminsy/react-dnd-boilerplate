@@ -8,9 +8,9 @@ import { fromJS } from 'immutable';
 import { SAVE_BOX_DATA } from './constants';
 export const initialState = fromJS({
   boxes: {
-    a: { top: 20, left: 80, title: 'Drag me around', color: '#aa0000' },
-    b: { top: 180, left: 20, title: 'Drag me too', color: '#00aa00' },
-    c: { top: 100, left: 220, title: 'Drag me too', color: '#0000aa' },
+    a: { top: 20, left: 80, title: 'A: Drag me around', color: '#aa0000' },
+    b: { top: 180, left: 20, title: 'B: Drag me too', color: '#00aa00' },
+    c: { top: 100, left: 220, title: 'C: Drag me too', color: '#0000aa' },
   },
 });
 
