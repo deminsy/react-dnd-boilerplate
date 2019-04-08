@@ -1,8 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 import ItemTypes from 'utils/itemTypes';
 import Box from 'components/Box';
+
 function getStyles(props) {
   const { left, top, isDragging } = props;
   const transform = `translate3d(${left}px, ${top}px, 0)`;
@@ -40,6 +42,11 @@ class DraggableBox extends React.PureComponent {
     );
   }
 }
+
+DraggableBox.propTypes = {
+  connectDragPreview: PropTypes.func,
+};
+
 export default DragSource(
   ItemTypes.BOX,
   {

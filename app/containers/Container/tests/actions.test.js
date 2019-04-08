@@ -1,13 +1,27 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { saveBoxData, logBoxData } from '../actions';
+import { SAVE_BOX_DATA, LOG_BOX_DATA } from '../constants';
 
 describe('Container actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('Log Box Data Action', () => {
+    it('has a type of LOG_BOX_DATA', () => {
+      const data = { id: 'a', top: 0, left: 0 };
       const expected = {
-        type: DEFAULT_ACTION,
+        type: LOG_BOX_DATA,
+        payload: data,
       };
-      expect(defaultAction()).toEqual(expected);
+
+      expect(logBoxData(data)).toEqual(expected);
+    });
+  });
+  describe('Save Box Data Action', () => {
+    it('has a type of SAVE_BOX_DATA', () => {
+      const data = { id: 'a', top: 0, left: 0 };
+      const expected = {
+        type: SAVE_BOX_DATA,
+        payload: data,
+      };
+
+      expect(saveBoxData(data)).toEqual(expected);
     });
   });
 });

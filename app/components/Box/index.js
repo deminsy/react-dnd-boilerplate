@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 const styles = {
   height: 100,
   width: 100,
@@ -11,6 +13,11 @@ const Box = ({ title, yellow, color }) => {
   return (
     <div style={Object.assign({}, styles, { backgroundColor })}>{title}</div>
   );
+};
+Box.propTypes = {
+  title: PropTypes.string,
+  yellow: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default Box;

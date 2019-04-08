@@ -22,7 +22,6 @@ import makeSelectContainer from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
-const update = require('immutability-helper');
 const styles = {
   // width: '100%',
   height: 300,
@@ -32,18 +31,6 @@ const styles = {
 
 /* eslint-disable react/prefer-stateless-function */
 export class Container extends React.PureComponent {
-  constructor() {
-    super(...arguments);
-    // this.state = {
-    //   drugging: false,
-    //   boxes: {
-    //     a: { top: 20, left: 80, title: 'Drag me around', color: '#aa0000' },
-    //     b: { top: 180, left: 20, title: 'Drag me too', color: '#00aa00' },
-    //     c: { top: 100, left: 220, title: 'Drag me too', color: '#0000aa' },
-    //   },
-    // };
-  }
-
   render() {
     const { connectDropTarget } = this.props;
     const { boxes } = this.props.container;
@@ -55,17 +42,7 @@ export class Container extends React.PureComponent {
   }
 
   moveBox(id, left, top) {
-    //console.log(id, left, top);
-    this.props.logBoxData({id, left, top});
-    // this.setState(
-    //   update(this.state, {
-    //     boxes: {
-    //       [id]: {
-    //         $merge: { left, top },
-    //       },
-    //     },
-    //   }),
-    // );
+    this.props.logBoxData({ id, left, top });
   }
 
   renderBox(item, key) {
@@ -124,25 +101,3 @@ export default compose(
     }),
   ),
 )(Container);
-
-// export default DropTarget(
-//   ItemTypes.BOX,
-//   {
-//     drop(props, monitor, component) {
-//       if (!component) {
-//         return
-//       }
-//       const delta = monitor.getDifferenceFromInitialOffset()
-//       const item = monitor.getItem()
-//       let left = Math.round(item.left + delta.x)
-//       let top = Math.round(item.top + delta.y)
-//       if (props.snapToGrid) {
-//         ;[left, top] = snapToGrid(left, top)
-//       }
-//       component.moveBox(item.id, left, top)
-//     },
-//   },
-//   connect => ({
-//     connectDropTarget: connect.dropTarget(),
-//   }),
-// )(Container)

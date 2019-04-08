@@ -4,7 +4,7 @@
  *
  */
 
-import { fromJS, getIn } from 'immutable';
+import { fromJS } from 'immutable';
 import { SAVE_BOX_DATA } from './constants';
 export const initialState = fromJS({
   boxes: {

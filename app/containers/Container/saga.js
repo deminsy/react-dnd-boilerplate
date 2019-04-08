@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
 import { LOG_BOX_DATA } from './constants';
 import { saveBoxData } from './actions';
 export function* logData(data) {

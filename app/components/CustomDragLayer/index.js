@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { DragLayer } from 'react-dnd';
@@ -61,6 +61,16 @@ const CustomDragLayer = props => {
       <div style={getItemStyles(props)}>{renderItem()}</div>
     </div>
   );
+};
+
+CustomDragLayer.propTypes = {
+  isDragging: PropTypes.bool,
+  itemType: PropTypes.exact(ItemTypes.BOX),
+  // error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  // repos: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  item: PropTypes.object,
+  // username: PropTypes.string,
+  // onChangeUsername: PropTypes.func,
 };
 export default DragLayer(monitor => ({
   item: monitor.getItem(),
